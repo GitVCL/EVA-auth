@@ -15,9 +15,12 @@
   "keywords": [],
   "author": "EVA ATELIE",
   "license": "MIT",
+  "engines": {
+    "node": "20.x"
+  },
   "dependencies": {
+    "@node-rs/argon2": "^2.0.0",
     "@prisma/client": "^5.22.0",
-    "argon2": "^0.45.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

@@ -1,6 +1,6 @@
 import { prisma } from '../config/prisma';
 import { env } from '../config/env';
-import argon2 from 'argon2';
+import { hash, verify, Algorithm } from '@node-rs/argon2';
 import jwt from 'jsonwebtoken';
 
 export type AuthTokenPayload = {
@@ -61,7 +61,7 @@ export class AuthService {
       return { ok: false as const, error: 'Credenciais invalidas', code: 401 };
     }
 
-    const match = await argon2.verify(user.passwordHash, password);
+    const match = await verify(user.passwordHash, password);
     if (!match) {
       return { ok: false as const, error: 'Credenciais invalidas', code: 401 };
     }
@@ -99,8 +99,8 @@ export class AuthService {
   }
 
   static async hashPassword(password: string): Promise<string> {
-    return argon2.hash(password, {
-      type: argon2.argon2id,
+    return hash(password, {
+      algorithm: Algorithm.Argon2id,
       memoryCost: 19456,
       timeCost: 2,
       parallelism: 1,
